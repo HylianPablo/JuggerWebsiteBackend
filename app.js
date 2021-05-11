@@ -6,7 +6,7 @@ var logger = require('morgan');
 var cors = require("cors");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
 var testAPIRouter = require("./routes/testAPI");
 var db = require("./models");
 
@@ -24,12 +24,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 app.use("/testAPI", testAPIRouter);
 
-db.sequelize.sync({ force: true}).then(() => {
-  console.log("Drop and re-sync db.");
-});
+/*db.sequelize.sync({force: false});*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

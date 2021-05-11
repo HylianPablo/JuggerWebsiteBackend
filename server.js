@@ -17,9 +17,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./models");
-db.sequelize.sync({ force: true }).then(() => {
+/*db.sequelize.sync({ force: false }).then(() => {
   console.log("Drop and re-sync db.");
-});
+});*/
 
 // simple route
 app.get("/", (req, res) => {
