@@ -1,5 +1,5 @@
 const db = require("../models");
-const User = db.tutorials;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -26,7 +26,17 @@ exports.create = (req, res) => {
   };;
 
 exports.findOne = (req, res) => {
+  const name = req.params.name;
 
+  User.findByPk(name)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Tutorial with name=" + name
+      });
+    });
 };
 
 exports.update = (req, res) => {
@@ -41,6 +51,18 @@ exports.deleteAll = (req, res) => {
 
 };
 
-exports.findAllPublished = (req, res) => {
+exports.findAll = (req, res) => {
+  const name = req.query.name;
+  var condition = name ? { name: { [Op.like]: '%${name}%'} } : null;
 
+  User.findAll({ where: condition})
+    .then(data => {
+      res.send(data);
+    })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving tutorials."
+        });
+      });
 };
