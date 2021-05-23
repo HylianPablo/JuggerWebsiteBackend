@@ -13,10 +13,10 @@ module.exports = app => {
     router.get("/:name", user.findOne);
   
     // Update a Tutorial with id
-    router.put("/:id", user.update);
+    router.put("/:name", user.update);
   
     // Delete a Tutorial with id
-    router.delete("/:id", user.delete);
+    router.delete("/:name", user.delete);
   
     // Delete all Tutorials
     router.delete("/", user.deleteAll);

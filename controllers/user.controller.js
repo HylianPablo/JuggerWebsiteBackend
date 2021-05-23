@@ -40,15 +40,62 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
+  const name = req.params.name;
 
+  User.update(req.body, {
+    where: {name: name}
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update User with name=${name}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating User with name=" + name
+      });
+    });
 };
 
 exports.delete = (req, res) => {
+  const name = req.params.name;
 
+  User.destroy({
+    where: { name: name }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User deleted successfully."
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete User with name=" + name
+      });
+    });
 };
 
 exports.deleteAll = (req, res) => {
-
+  User.destroy({
+    where: {},
+    truncate: false
+  })
+    .then(nums => {
+      res.send({ message: `${nums} Users were deleted successfully`});
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error ocurred while removing all users."
+      });
+    });
 };
 
 exports.findAll = (req, res) => {
