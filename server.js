@@ -3,6 +3,35 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
+const path = require('path');
+const mysql = require('mysql');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const Router = require('./Router');
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.json());
+
+/*const sessionStore = new MySQLStore({
+  expiration: (1825 * 86400 * 1000),
+  endConnectionOnClose: false
+}, db);
+
+
+app.use(session({
+  key: 'lhoehoqfonqofnfoiqefiqeh',
+  secret: 'keouewbobfcebciewbfiure',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: (1825 * 86400 * 1000),
+    httpOnly: false
+  }
+}));*/
+
+new Router(app, db);
+
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -32,4 +61,8 @@ require("./routes/user.routes")(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+});
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
