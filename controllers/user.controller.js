@@ -23,7 +23,7 @@ exports.create = (req, res) => {
             err.message || "Some error occurred while creating the Tutorial."
         });
       });
-  };;
+  };
 
 exports.findOne = (req, res) => {
   const name = req.params.name;
