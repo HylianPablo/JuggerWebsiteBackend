@@ -1,8 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const postCharge = require('./stripe')
+require('dotenv').config()
 
 const app = express();
+const router = express.Router()
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -25,6 +28,8 @@ app.get("/", (req, res) => {
 
 require("./routes/user.routes")(app);
 require("./routes/tournament.routes")(app);
+require("./routes/payment.routes")(app);
+router.post('/stripe/charge', postCharge)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
