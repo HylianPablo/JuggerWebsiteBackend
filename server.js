@@ -1,8 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const postCharge = require('./stripe')
+require('dotenv').config()
 
 const app = express();
+const router = express.Router()
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -17,16 +20,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./models");
-/*db.sequelize.sync({ force: false }).then(() => {
-  console.log("Drop and re-sync db.");
-});*/
 
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-require("./routes/tutorial.routes")(app);
+require("./routes/user.routes")(app);
+require("./routes/tournament.routes")(app);
+require("./routes/payment.routes")(app);
+router.post('/stripe/charge', postCharge)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

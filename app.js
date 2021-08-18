@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use("/testAPI", testAPIRouter);
+app.use('/razorpay', razorpayRouter);
 
 /*db.sequelize.sync({force: false});*/
 
